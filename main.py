@@ -1,21 +1,28 @@
 U, D, F, B, L, R = 0, 1, 2, 3, 4, 5
 
+#===================
+#CREATION DU CUBE
+#===================
 def new_cube(): 
     cube = [
-        [[U]*3 for _ in range(3)],  # Up
-        [[D]*3 for _ in range(3)],  # Down
-        [[F]*3 for _ in range(3)],  # Front
-        [[B]*3 for _ in range(3)],  # Back
-        [[L]*3 for _ in range(3)],  # Left
-        [[R]*3 for _ in range(3)]   # Right
+        [[(255,255,255)]*3 for _ in range(3)],  # Up
+        [[(255,255,0)]*3 for _ in range(3)],  # Down
+        [[(255,0,0)]*3 for _ in range(3)],  # Front
+        [[(255,127,0)]*3 for _ in range(3)],  # Back
+        [[(0,0,255)]*3 for _ in range(3)],  # Left
+        [[(0,255,0)]*3 for _ in range(3)]   # Right
     ]
 
     return cube
 
 
+#Faire tourner une face sur elle-même
 def rotate_face_cw(face):
     return [list(row) for row in zip(*face[::-1])]
 
+#=================================
+# Mouvements de base U,D,F,B,L,R
+#=================================
 
 def move_F(cube):
     cube[F] = rotate_face_cw(cube[F])
@@ -77,13 +84,3 @@ def move_R(cube):
     cube[D][0][2], cube[D][1][2], cube[D][2][2] = [cube[B][2-i][2] for i in range(3)]
     cube[B][0][2], cube[B][1][2], cube[B][2][2] = temp
     
-    
-    
-
-
-
-cube = new_cube()
-move_R(cube)
-
-print(cube)
-

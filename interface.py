@@ -1,7 +1,7 @@
 import pygame 
 import sys
 from dataclasses import dataclass
-
+from main import new_cube,move_L,move_B,move_D,move_F,move_R,move_U
 
 
 @dataclass
@@ -69,6 +69,10 @@ class App:
     def __init__(self):
         pygame.init()
         self.screen=pygame.display.set_mode((1000,700))
+        cube=new_cube()
+        """move_R(cube)
+        move_U(cube)
+        move_U(cube)"""
 
         self.front_view=[
             FrontView(
@@ -77,7 +81,7 @@ class App:
                 28,
                 40,
                 10,
-                (255,0,0)
+                cube[2][j][i]
             )
             for i in range(3)
             for j in range (3)
@@ -90,7 +94,7 @@ class App:
                 28,
                 40,
                 10,
-                (0,0,255)
+                cube[4][i][j]
             )
             for i in range(3)
             for j in range (3)
@@ -102,7 +106,45 @@ class App:
                 28,
                 10,
                 20,
-                (255,255,255)
+                cube[0][j][i]
+            )
+            for i in range(3)
+            for j in range(3)
+        ]
+
+        self.back_view=[
+            FrontView(
+                420+35*i ,
+                150-13*i + 45*j,
+                28,
+                40,
+                -10,
+                cube[3][j][i]
+            )
+            for i in range(3)
+            for j in range (3)
+        ]
+
+        self.right_view=[
+            LeftView(
+                535 +33*j,
+                115+46*i +13*j ,
+                28,
+                40,
+                -10,
+                cube[5][i][j]
+            )
+            for i in range(3)
+            for j in range (3)
+        ]
+        self.bottom_view=[
+            TopView( 
+                420 + 36*i +40*j,
+                290 + 12*i - 12*j,
+                28,
+                10,
+                20,
+                cube[1][j][i]
             )
             for i in range(3)
             for j in range(3)
@@ -119,6 +161,15 @@ class App:
             view.draw(self.screen)
 
         for view in self.top_view:
+            view.draw(self.screen)
+        
+        for view in self.back_view:
+            view.draw(self.screen)
+
+        for view in self.right_view:
+            view.draw(self.screen)
+
+        for view in self.bottom_view:
             view.draw(self.screen)
         
 
