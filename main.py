@@ -60,22 +60,30 @@ def move_B(cube):
 def move_L(cube):
     cube[L] = rotate_face_cw(cube[L])
     
-    temp = [cube[U][0][i] for i in range(3)].copy()
+    temp = [cube[U][i][0] for i in range(3)].copy()
 
-    cube[U][0][0], cube[U][1][0], cube[U][2][0] = [cube[B][0][i] for i in range(3)]
-    cube[B][0][0], cube[B][1][0], cube[B][2][0] = [cube[D][0][i] for i in range(3)]
-    cube[D][0][0], cube[D][1][0], cube[D][2][0] = [cube[F][0][i] for i in range(3)]
+    cube[U][0][0], cube[U][1][0], cube[U][2][0] = [cube[B][2-i][0] for i in range(3)]
+    cube[B][2][0], cube[B][1][0], cube[B][0][0] = [cube[D][i][0] for i in range(3)]
+    cube[D][0][0], cube[D][1][0], cube[D][2][0] = [cube[F][i][0] for i in range(3)]
     cube[F][0][0], cube[F][1][0], cube[F][2][0] = temp
 
 def move_R(cube):
     cube[R] = rotate_face_cw(cube[R])
+
+    temp = [cube[U][2-i][2] for i in range(3)]
+
+    cube[U][0][2], cube[U][1][2], cube[U][2][2] = [cube[F][i][2] for i in range(3)]
+    cube[F][0][2], cube[F][1][2], cube[F][2][2] = [cube[D][i][2] for i in range(3)]
+    cube[D][0][2], cube[D][1][2], cube[D][2][2] = [cube[B][2-i][2] for i in range(3)]
+    cube[B][0][2], cube[B][1][2], cube[B][2][2] = temp
+    
     
     
 
 
 
 cube = new_cube()
-move_L(cube)
+move_R(cube)
 
 print(cube)
 
