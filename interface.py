@@ -1,5 +1,6 @@
 import pygame 
 import sys
+import math
 from dataclasses import dataclass
 from main import new_cube,move_L,move_B,move_D,move_F,move_R,move_U
 
@@ -202,9 +203,8 @@ class App:
                 if event.type==pygame.QUIT:
                     sys.exit()
                 self.process_events(event,self.cube)
-            self.screen.fill((0,0,0))
 
-            pygame.draw.rect(self.screen, (0, 0, 0), pygame.Rect(0, 0, 1000, 700))
+            pygame.draw.rect(self.screen, (30, 30, 30), pygame.Rect(0, 0, 1000, 700))
             self.draw()
             pygame.display.flip()
 

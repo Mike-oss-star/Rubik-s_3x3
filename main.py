@@ -83,4 +83,38 @@ def move_R(cube):
     cube[F][0][2], cube[F][1][2], cube[F][2][2] = [cube[D][i][2] for i in range(3)]
     cube[D][0][2], cube[D][1][2], cube[D][2][2] = [cube[B][2-i][2] for i in range(3)]
     cube[B][0][2], cube[B][1][2], cube[B][2][2] = temp
+
+#=====================
+#Mouvements Inverses
+#=====================
+def move_F_(cube):
+    move_F(cube)
+    move_F(cube)
+    move_F(cube)
+
+def move_U_(cube):
+    move_U(cube)
+    move_U(cube)
+    move_U(cube)
+    
+def move_D_(cube):
+    move_D(cube)
+    move_D(cube)
+    move_D(cube)
+
+def move_B_(cube):
+    move_B(cube)
+    move_B(cube)
+    move_B(cube)
+
+def move_L_(cube):
+    move_L(cube)
+    move_L(cube)
+    move_L(cube)
+
+
+def move_R_(cube):
+    move_R(cube)
+    move_R(cube)
+    move_R(cube)
     
