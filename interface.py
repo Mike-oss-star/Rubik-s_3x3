@@ -11,7 +11,10 @@ class FrontView:
     width: int
     height:int 
     d:int
-    color: tuple
+    
+    face:int
+    i:int
+    j:int
 
     def points(self):
         return[
@@ -21,8 +24,9 @@ class FrontView:
             (self.x + self.width, self.y+self.d),
         ]
     
-    def draw(self,screen:pygame.Surface):
-        pygame.draw.polygon(screen,self.color,self.points())
+    def draw(self,screen:pygame.Surface,cube):
+        color= cube[self.face][self.i][self.j]
+        pygame.draw.polygon(screen,color,self.points())
 
 @dataclass
 class LeftView:
@@ -31,7 +35,10 @@ class LeftView:
     width: int
     height:int 
     d:int
-    color: tuple
+    
+    face:int
+    i:int
+    j:int
 
     def points(self):
         return[
@@ -41,8 +48,9 @@ class LeftView:
             (self.x + self.width, self.y-self.d),
         ]
     
-    def draw(self,screen:pygame.Surface):
-        pygame.draw.polygon(screen,self.color,self.points())
+    def draw(self,screen:pygame.Surface,cube):
+        color=cube[self.face][self.i][self.j]
+        pygame.draw.polygon(screen,color,self.points())
 
 @dataclass
 class TopView:
@@ -51,7 +59,9 @@ class TopView:
     width: int
     height:int 
     d:int
-    color: tuple
+    face:int
+    i:int 
+    j:int 
 
     def points(self):
         return[
@@ -61,18 +71,16 @@ class TopView:
             (self.x + self.width, self.y - self.height),
         ]
     
-    def draw(self,screen:pygame.Surface):
-        pygame.draw.polygon(screen,self.color,self.points())
+    def draw(self,screen:pygame.Surface,cube):
+        color=cube[self.face][self.i][self.j]
+        pygame.draw.polygon(screen,color,self.points())
 
 
 class App:
     def __init__(self):
         pygame.init()
         self.screen=pygame.display.set_mode((1000,700))
-        cube=new_cube()
-        """move_R(cube)
-        move_U(cube)
-        move_U(cube)"""
+        self.cube=new_cube()
 
         self.front_view=[
             FrontView(
@@ -81,7 +89,7 @@ class App:
                 28,
                 40,
                 10,
-                cube[2][j][i]
+                2,j,i
             )
             for i in range(3)
             for j in range (3)
@@ -94,7 +102,7 @@ class App:
                 28,
                 40,
                 10,
-                cube[4][i][j]
+                4,i,j
             )
             for i in range(3)
             for j in range (3)
@@ -106,7 +114,7 @@ class App:
                 28,
                 10,
                 20,
-                cube[0][j][i]
+                0,j,i
             )
             for i in range(3)
             for j in range(3)
@@ -119,7 +127,7 @@ class App:
                 28,
                 40,
                 -10,
-                cube[3][j][i]
+                3,j,2-i
             )
             for i in range(3)
             for j in range (3)
@@ -132,7 +140,7 @@ class App:
                 28,
                 40,
                 -10,
-                cube[5][i][j]
+                5,i,2-j
             )
             for i in range(3)
             for j in range (3)
@@ -144,33 +152,46 @@ class App:
                 28,
                 10,
                 20,
-                cube[1][j][i]
+                1,i,2-j
             )
             for i in range(3)
             for j in range(3)
         ]
         
-        
+    def process_events(self,event:pygame.event.Event,cube):
+        if event.type == pygame.KEYDOWN:
+            if event.key==pygame.K_u:
+                move_U(cube)
+            if event.key==pygame.K_d:
+                move_D(cube)
+            if event.key==pygame.K_f:
+                move_F(cube)
+            if event.key==pygame.K_b:
+                move_B(cube)
+            if event.key==pygame.K_l:
+                move_L(cube)
+            if event.key==pygame.K_r:
+                move_R(cube)
         
 
     def draw(self):
         for view in self.front_view:
-            view.draw(self.screen)
+            view.draw(self.screen,self.cube)
 
         for view in self.left_view:
-            view.draw(self.screen)
+            view.draw(self.screen,self.cube)
 
         for view in self.top_view:
-            view.draw(self.screen)
+            view.draw(self.screen,self.cube)
         
         for view in self.back_view:
-            view.draw(self.screen)
+            view.draw(self.screen,self.cube)
 
         for view in self.right_view:
-            view.draw(self.screen)
+            view.draw(self.screen,self.cube)
 
         for view in self.bottom_view:
-            view.draw(self.screen)
+            view.draw(self.screen,self.cube)
         
 
     def run(self):
@@ -180,8 +201,10 @@ class App:
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
                     sys.exit()
+                self.process_events(event,self.cube)
             self.screen.fill((0,0,0))
 
+            pygame.draw.rect(self.screen, (0, 0, 0), pygame.Rect(0, 0, 1000, 700))
             self.draw()
             pygame.display.flip()
 
